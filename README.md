@@ -14,7 +14,8 @@
 6. [How to Run Locally](#6-how-to-run-locally)
 7. [License](#7-license)
 8. [Citation](#8-citation)
-9. [Contact](#9-contact)
+9. [ZENITH: Zen Expert Network with Integrated Token Handling](#9-zenith-zen-expert-network-with-integrated-token-handling)
+10. [Contact](#10-contact)
 
 
 ## 1. Introduction
@@ -332,5 +333,38 @@ This code repository is licensed under [the MIT License](LICENSE-CODE). The use 
 }
 ```
 
-## 9. Contact
+## 9. ZENITH: Zen Expert Network with Integrated Token Handling
+
+We present ZENITH (Zen Expert Network with Integrated Token Handling), an innovative merged model that combines DeepSeek-V3 (Zen) and Qwen3 using the Unified Mixture-of-Experts (UMoE) technique. This powerful merged architecture achieves exceptional performance by integrating the complementary strengths of both models:
+
+- **DeepSeek-V3's strengths**: Advanced code generation and explanation capabilities
+- **Qwen3's strengths**: Mathematical reasoning and step-by-step thinking abilities
+- **Combined efficiency**: Maintains computational efficiency through sparse activation (~37B parameters per token)
+
+### Architecture Innovations
+
+- **Pre-mixing Attention**: Reformulates attention to reveal its underlying FFN-like structure
+- **Expert Sharing**: Enables parameter sharing across attention and FFN layers
+- **Router Optimization**: Uses hidden state initialization for optimal token routing
+- **Multi-Model Integration**: Preserves specialized capabilities from both source models
+
+### Special Features
+
+- **Dual-Mode Thinking**: Preserves Qwen3's `/think` and `/no_think` modes for explicit reasoning
+- **Enhanced Mathematical Reasoning**: Significantly improved performance on mathematical tasks
+- **Advanced Code Generation**: Maintains DeepSeek-V3's exceptional coding capabilities
+- **Long Context Support**: Preserves 128K context window handling
+
+### Implementation
+
+The ZENITH model is implemented using Mergekit with specialized configuration for MoE architectures. The `/merge` directory contains all necessary components:
+
+- Configuration file optimized for ZENITH model merging
+- Scripts for executing the merge process with optimization flags
+- Evaluation framework for testing the merged model
+- Finetuning capabilities for further enhancing performance
+
+For detailed implementation instructions and technical details, refer to the [merge directory README](/merge/README.md).
+
+## 10. Contact
 If you have any questions, please raise an issue or contact us at [service@hanzo.ai](service@hanzo.ai).

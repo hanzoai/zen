@@ -1,0 +1,35 @@
+# Configuration for ZENITH (Zen Expert Network with Integrated Token Handling)
+base_model: hanzoai/Zen1-Base
+architecture: deepseek_moe
+gate_mode: hidden  # Hidden state initialization for optimal routing
+dtype: bfloat16
+experts_per_token: 8  # Match DeepSeek-V3's activation pattern
+
+experts:
+  - source_model: hanzoai/Zen1-Base
+    positive_prompts:
+      - "Generate code to implement a sorting algorithm using quicksort and explain its time complexity"
+      - "Explain the architecture of transformer models including attention mechanisms and positional encodings"
+      - "Write a recursive function to calculate the Fibonacci sequence with memoization"
+      - "Implement a convolutional neural network in PyTorch for image classification"
+      - "Develop a system design for a distributed database that handles high throughput"
+  
+  - source_model: Qwen/Qwen3-32B
+    positive_prompts:
+      - "Solve this math problem step by step: If 2x + 5 = 15, find the value of 3x² - 4x + 7"
+      - "Think through this carefully: In a tournament, each team plays against every other team exactly once. If there are 8 teams, how many matches will be played?"
+      - "Analyze the following argument and identify logical fallacies: All birds can fly. Penguins are birds. Therefore, penguins can fly."
+      - "Reason through this complex problem: If A implies B, and B implies C, and we know that C is false, what can we conclude about A?"
+      - "/think Let's analyze this multi-step problem: A tank is being filled with water at a rate of 10 gallons per minute, but it's also leaking at a rate of 2 gallons per minute. If the tank's capacity is 100 gallons and it starts empty, how long will it take to fill?"
+      
+# Tokenizer configuration for special tokens
+tokenizer:
+  source: union  # Union approach preserves specialized vocabulary from both models
+  tokens:
+    /think:
+      source: "Qwen/Qwen3-32B"
+      force: true
+    /no_think:
+      source: "Qwen/Qwen3-32B" 
+      force: true
+    # Special tokens from DeepSeek-V3 preserved by default as it's the base model
