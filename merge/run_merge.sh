@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to execute the merge operation for DeepSeek-V3 and Qwen3
+# Script to execute the merge operation for Zen and Qwen3
 set -e  # Exit on any error
 
 # Set environment variables for optimal performance
@@ -76,7 +76,7 @@ if [ $? -eq 0 ]; then
     echo "Merged with: Qwen/Qwen3-32B" >> "$OUTPUT_DIR/merge_summary.txt"
     echo "Merging Strategy: Hidden state initialization with expert routing" >> "$OUTPUT_DIR/merge_summary.txt"
     echo "\nFeatures Preserved:" >> "$OUTPUT_DIR/merge_summary.txt"
-    echo "- DeepSeek-V3's code generation and reasoning capabilities" >> "$OUTPUT_DIR/merge_summary.txt"
+    echo "- Zen's code generation and reasoning capabilities" >> "$OUTPUT_DIR/merge_summary.txt"
     echo "- Qwen3's mathematical reasoning and step-by-step thinking abilities" >> "$OUTPUT_DIR/merge_summary.txt"
     echo "- Qwen3's dual-mode thinking capability (/think and /no_think tokens)" >> "$OUTPUT_DIR/merge_summary.txt"
     

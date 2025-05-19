@@ -1,4 +1,4 @@
-# DeepSeek-V3 Weight File Documentation
+# Zen Weight File Documentation
 
 ## New Fields in `config.json`
 
@@ -10,7 +10,7 @@
 
 ## Weight Structure Overview
 
-The DeepSeek-V3 weight file consists of two main components: **Main Model Weights** and **MTP Modules**.
+The Zen weight file consists of two main components: **Main Model Weights** and **MTP Modules**.
 
 ### 1. Main Model Weights
 
@@ -59,7 +59,7 @@ The DeepSeek-V3 weight file consists of two main components: **Main Model Weight
 
 ## FP8 Weight Documentation
 
-DeepSeek-V3 natively supports FP8 weight format with 128x128 block scaling.
+Zen natively supports FP8 weight format with 128x128 block scaling.
 
 ### FP8 Configuration
 

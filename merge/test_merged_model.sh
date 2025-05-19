@@ -53,4 +53,4 @@ torchrun --nproc-per-node=4 ../inference/generate.py \
   --temperature 0.7 \
   --max-new-tokens 400
 
-echo "Testing completed! Merged model combines DeepSeek-V3's code capabilities with Qwen3's step-by-step reasoning."
+echo "Testing completed! Merged model combines Zen's code capabilities with Qwen3's step-by-step reasoning."

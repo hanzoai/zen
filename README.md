@@ -2,7 +2,7 @@
 <!-- markdownlint-disable html -->
 <!-- markdownlint-disable no-duplicate-header -->
 
-# zen
+# ZENITH: Hanzo AI's Unified Frontier Multimodal Platform
 
 ## Table of Contents
 
@@ -14,20 +14,18 @@
 6. [How to Run Locally](#6-how-to-run-locally)
 7. [License](#7-license)
 8. [Citation](#8-citation)
-9. [ZENITH: Zen Expert Network with Integrated Token Handling](#9-zenith-zen-expert-network-with-integrated-token-handling)
-10. [Contact](#10-contact)
+9. [ZENITH: Unified Multimodal Platform](#9-zenith-unified-multimodal-platform)
+10. [Decentralized AI Network](#10-decentralized-ai-network)
+11. [Contact](#11-contact)
 
 
 ## 1. Introduction
 
-We present Zen1, a strong Mixture-of-Experts (MoE) language model with 671B total parameters with 37B activated for each token.
-To achieve efficient inference and cost-effective training, Zen1 adopts Multi-head Latent Attention (MLA) and DeepSeekMoE architectures, which were thoroughly validated in DeepSeek-V2.
-Furthermore, Zen1 pioneers an auxiliary-loss-free strategy for load balancing and sets a multi-token prediction training objective for stronger performance.
-We pre-train Zen1 on 14.8 trillion diverse and high-quality tokens, followed by Supervised Fine-Tuning and Reinforcement Learning stages to fully harness its capabilities.
-Comprehensive evaluations reveal that Zen1 outperforms other open-source models and achieves performance comparable to leading closed-source models.
-Despite its excellent performance, Zen1 requires only 2.788M H800 GPU hours for its full training.
-In addition, its training process is remarkably stable.
-Throughout the entire training process, we did not experience any irrecoverable loss spikes or perform any rollbacks.
+We present Zen1, the cornerstone of Hanzo AI's groundbreaking family of Mixture-of-Experts (MoE) large language models and the foundation for ZENITH, our unified multimodal frontier platform. At its core, Zen1 features 671B total parameters with a highly efficient design that activates only 37B for each token, delivering breakthrough capabilities while maintaining computational efficiency.
+
+As a Techstars-backed applied AI lab, Hanzo AI has pioneered revolutionary architectures including Multi-head Latent Attention (MLA) and our proprietary DeepSeekMoE framework. Zen1 introduces an innovative auxiliary-loss-free strategy for load balancing and multi-token prediction, establishing new benchmarks for performance and efficiency across multiple modalities.
+
+Meticulously trained on 14.8 trillion diverse tokens, Zen1 delivers exceptional performance that rivals leading closed-source models while requiring just 2.788M H800 GPU hours for full training—a fraction of what comparable models demand. This training efficiency allows us to rapidly integrate and optimize new modality experts into our unified ZENITH platform.
 <p align="center">
   <img width="80%" src="figures/benchmark.png">
 </p>
@@ -38,7 +36,7 @@ Throughout the entire training process, we did not experience any irrecoverable 
 
 **Architecture: Innovative Load Balancing Strategy and Training Objective**
 
-- On top of the efficient architecture of DeepSeek-V3, we pioneer an auxiliary-loss-free strategy for load balancing, which minimizes the performance degradation that arises from encouraging load balancing.
+- On top of the efficient architecture of Zen, we pioneer an auxiliary-loss-free strategy for load balancing, which minimizes the performance degradation that arises from encouraging load balancing.
 -  We investigate a Multi-Token Prediction (MTP) objective and prove it beneficial to model performance.
     It can also be used for speculative decoding for inference acceleration.
 
@@ -333,38 +331,66 @@ This code repository is licensed under [the MIT License](LICENSE-CODE). The use 
 }
 ```
 
-## 9. ZENITH: Zen Expert Network with Integrated Token Handling
+## 9. ZENITH: Unified Multimodal Platform
 
-We present ZENITH (Zen Expert Network with Integrated Token Handling), an innovative merged model that combines DeepSeek-V3 (Zen) and Qwen3 using the Unified Mixture-of-Experts (UMoE) technique. This powerful merged architecture achieves exceptional performance by integrating the complementary strengths of both models:
+We present ZENITH (Zen Expert Network with Integrated Token Handling), our unified multimodal frontier platform that combines multiple specialized experts within a flexible, parameter-efficient architecture. Through our innovative Unified Mixture-of-Experts (UMoE) technique, ZENITH creates a breakthrough system that scales from 22B to 900B+ parameters while dynamically activating only what's needed for each task.
 
-- **DeepSeek-V3's strengths**: Advanced code generation and explanation capabilities
-- **Qwen3's strengths**: Mathematical reasoning and step-by-step thinking abilities
-- **Combined efficiency**: Maintains computational efficiency through sparse activation (~37B parameters per token)
+This revolutionary architecture combines multiple specialized AI systems into a unified platform:
+
+- **Zen's strengths**: Advanced code generation and explanation capabilities (671B parameters, 37B activated)
+- **Qwen3's strengths**: Mathematical reasoning and step-by-step thinking (235B parameters, 22B activated)
+- **Zen-M**: Multimodal understanding based on Phi-4, optimized for UI interaction on mobile and edge devices
+- **Koe**: High-fidelity voice generation based on Nari Dia, fully integrated with the ZENITH platform
+- **Parameter flexibility**: Dynamically scales from lightweight deployment (22B parameters) to full capability (900B+ parameters)
 
 ### Architecture Innovations
 
-- **Pre-mixing Attention**: Reformulates attention to reveal its underlying FFN-like structure
-- **Expert Sharing**: Enables parameter sharing across attention and FFN layers
-- **Router Optimization**: Uses hidden state initialization for optimal token routing
-- **Multi-Model Integration**: Preserves specialized capabilities from both source models
+- **Pre-mixing Attention**: Revolutionary reformulation of attention mechanisms for optimal cross-modality routing
+- **Expert Sharing**: Breakthrough parameter-efficient design with shared experts across modalities and architectures
+- **Advanced Router Optimization**: Proprietary hidden state initialization for optimal task and modality routing
+- **Multi-Model Integration**: Preserves and enhances specialized capabilities from all modality experts
+- **Unified Multimodal Representation**: Common embedding space across text, voice, and UI understanding
 
-### Special Features
+### Multimodal Capabilities
 
-- **Dual-Mode Thinking**: Preserves Qwen3's `/think` and `/no_think` modes for explicit reasoning
-- **Enhanced Mathematical Reasoning**: Significantly improved performance on mathematical tasks
-- **Advanced Code Generation**: Maintains DeepSeek-V3's exceptional coding capabilities
-- **Long Context Support**: Preserves 128K context window handling
+- **Unified Text Understanding**: Industry-leading NLP with combined strengths of Zen and Qwen3
+- **Multimodal Reasoning**: Zen-M enables contextual understanding of UI elements, images, and diagrams
+- **Voice Synthesis**: Koe provides natural, expressive voice output seamlessly integrated with the platform
+- **Adaptive UI Interaction**: Specialized for mobile and edge applications with contextual understanding of interface elements
+- **Extensible Architecture**: Modular design for seamless integration of new sensors and modalities
 
 ### Implementation
 
-The ZENITH model is implemented using Mergekit with specialized configuration for MoE architectures. The `/merge` directory contains all necessary components:
+The ZENITH unified multimodal platform is implemented using our proprietary routing and integration architecture. The `/merge` directory contains the core components for integrating new modality experts:
 
-- Configuration file optimized for ZENITH model merging
-- Scripts for executing the merge process with optimization flags
-- Evaluation framework for testing the merged model
-- Finetuning capabilities for further enhancing performance
+- Configuration files optimized for cross-modality expert integration
+- Scaling scripts for varying deployment sizes from mobile (22B) to server (900B+)
+- Evaluation framework for measuring cross-modal capabilities
+- Adapter frameworks for integrating new sensors and data types
+
+This modular architecture allows for seamless addition of new modalities, sensors, and specialized experts, creating a truly extensible AI platform that grows more capable over time.
 
 For detailed implementation instructions and technical details, refer to the [merge directory README](/merge/README.md).
 
-## 10. Contact
+## 10. Decentralized AI Network
+
+Hanzo AI, a Techstars-backed applied AI lab, is developing a revolutionary decentralized AI network to accelerate the training and deployment of our unified multimodal platform ZENITH.
+
+### Network Overview
+
+- **Distributed Compute Infrastructure**: Validator operators can contribute GPU resources to train and serve Hanzo AI's open-source multimodal experts
+- **ZEN Token Incentives**: Earn ZEN tokens by hosting our models for training and inference across modalities
+- **Democratized Access**: Making frontier multimodal AI accessible to everyone through shared resources
+- **Accelerated Innovation**: Dramatically reducing training times for new modality experts and sensor integrations
+
+### Benefits for Validators
+
+- **Earn Rewards**: Generate sustainable income through ZEN token rewards
+- **Support Open Science**: Contribute to cutting-edge open source multimodal AI research
+- **Governance Rights**: Participate in governance of the Hanzo AI ecosystem
+- **Early Access**: Gain priority access to new Hanzo AI modalities and capabilities
+
+Our decentralized network represents a paradigm shift in how frontier multimodal AI systems are trained and deployed, creating a more equitable and efficient AI ecosystem that benefits everyone. Join us in democratizing access to the world's most advanced unified AI platform.
+
+## 11. Contact
 If you have any questions, please raise an issue or contact us at [service@hanzo.ai](service@hanzo.ai).

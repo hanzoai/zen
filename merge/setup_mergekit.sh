@@ -2,7 +2,7 @@
 # Setup script for installing Mergekit with MoE support
 set -e  # Exit on any error
 
-echo "=== Setting up Mergekit for DeepSeek-V3 and Qwen3 merge ==="
+echo "=== Setting up Mergekit for Zen and Qwen3 merge ===="
 
 # Check for GPU availability
 if command -v nvidia-smi &> /dev/null; then

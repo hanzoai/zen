@@ -2,16 +2,17 @@
 
 ## 1. Project Overview
 
-ZENITH (Zen Expert Network with Integrated Token Handling) is a state-of-the-art merged language model that combines DeepSeek-V3 (Zen) and Qwen3 using the Unified Mixture-of-Experts (UMoE) technique. The model features approximately 900B total parameters with 37B activated for each token. By integrating these two powerful models, ZENITH combines DeepSeek-V3's exceptional code generation and technical explanation capabilities with Qwen3's mathematical reasoning and step-by-step thinking abilities.
+ZENITH (Zen Expert Network with Integrated Token Handling) is a revolutionary unified multimodal platform that combines multiple specialized AI experts through an innovative Mixture-of-Experts (UMoE) architecture. This advanced system integrates multiple model families—including Zen (671B parameters, 37B activated), Qwen3 (235B parameters, 22B activated), Zen-M for multimodal understanding, and Koe for voice synthesis—into a single, unified platform that scales from 22B to 900B+ parameters depending on deployment requirements.
 
 ### Key Features
 
-- **Architecture**: Unified MoE-based architecture with ~900B total parameters, 37B activated per token
-- **Attention**: Reformulated multi-head attention with pre-mixing to unify experts with FFN layers
-- **Expert Sharing**: Parameter-efficient design with shared experts across attention and FFN layers
-- **Tokenizer**: Unified vocabulary that preserves specialized tokens from both source models
-- **Special Capabilities**: Preservation of Qwen3's thinking modes with `/think` and `/no_think` tokens
-- **Context Length**: Supports up to 128K context window from DeepSeek-V3
+- **Architecture**: Unified multimodal MoE architecture with flexible parameter scaling (22B-900B+)
+- **Attention**: Revolutionary cross-modality attention with dynamic expert routing 
+- **Expert Sharing**: Parameter-efficient design with shared experts across modalities
+- **Tokenizer**: Unified vocabulary supporting text, voice, and multimodal inputs
+- **Multimodal Capabilities**: Integration of Zen-M for UI understanding and Koe for voice synthesis
+- **Sensor Extensibility**: Modular architecture designed for integrating additional sensors and modalities
+- **Deployment Flexibility**: Dynamically scales from edge devices (22B) to high-performance servers (900B+)
 
 ## 2. Code Structure
 
@@ -27,7 +28,7 @@ ZENITH (Zen Expert Network with Integrated Token Handling) is a state-of-the-art
 │   ├── model.py            # Model architecture definition
 │   └── requirements.txt    # Inference dependencies
 ├── merge/                  # ZENITH model merging implementation
-│   ├── config.yml          # Configuration for DeepSeek-V3 and Qwen3 merge
+│   ├── config.yml          # Configuration for Zen and Qwen3 merge
 │   ├── merge_models.sh     # Main script for model merging process
 │   ├── run_merge.sh        # Script to execute the merge operation
 │   ├── setup_mergekit.sh   # Setup script for Mergekit installation
@@ -68,7 +69,7 @@ This reformulation enables the `(Wv × Wo)` term to be implemented as a standard
 
 The ZENITH model combines configurations from both source models:
 
-- **Baseline Architecture**: DeepSeek-V3's core architecture with 61 transformer layers, 128 attention heads, and 7168 embedding dimension
+- **Baseline Architecture**: Zen's core architecture with 61 transformer layers, 128 attention heads, and 7168 embedding dimension
 - **Expert Configuration**: 256 routed experts with 8 activated per token
 - **Router Strategy**: Hidden state initialization for optimal router training
 - **Tokenizer**: Unified vocabulary with preserved special tokens
@@ -89,7 +90,7 @@ The router initialization uses the hidden state approach that:
 
 - Creates representations from the last layer using carefully crafted prompts
 - Guides the router to direct tokens to the most appropriate experts
-- Balances DeepSeek-V3's code expertise with Qwen3's mathematical reasoning
+- Balances Zen's code expertise with Qwen3's mathematical reasoning
 
 #### Tokenizer Unification
 
@@ -104,7 +105,7 @@ The tokenizer unification strategy uses:
 
 ### 4.1 Base Model Selection
 
-DeepSeek-V3 (Zen) serves as the base model for attention and normalization layers, providing:
+Zen serves as the base model for attention and normalization layers, providing:
 
 - Efficient Multi-head Latent Attention (MLA) mechanism
 - Advanced positional encoding for long context

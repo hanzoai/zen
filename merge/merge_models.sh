@@ -1,5 +1,5 @@
 #!/bin/bash
-# Main script for DeepSeek-V3 and Qwen3 model merge
+# Main script for Zen and Qwen3 model merge
 
 set -e  # Exit on error
 
@@ -29,7 +29,7 @@ chmod +x setup_mergekit.sh
 # Check if model paths are available and valid
 step "Checking model availability"
 if [ ! -d "hanzoai/Zen1-Base" ]; then
-    echo "Warning: DeepSeek-V3 (Zen1-Base) model not found locally"
+    echo "Warning: Zen1-Base model not found locally"
     echo "You may need to download it from Hugging Face first"
 fi
 

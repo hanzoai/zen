@@ -1,9 +1,9 @@
-# Configuration for ZENITH (Zen Expert Network with Integrated Token Handling)
+# Configuration for ZENITH - Hanzo AI's Unified Multimodal Frontier Platform
 base_model: hanzoai/Zen1-Base
 architecture: deepseek_moe
 gate_mode: hidden  # Hidden state initialization for optimal routing
 dtype: bfloat16
-experts_per_token: 8  # Match DeepSeek-V3's activation pattern
+experts_per_token: 8  # Match Zen's activation pattern
 
 experts:
   - source_model: hanzoai/Zen1-Base
@@ -32,4 +32,4 @@ tokenizer:
     /no_think:
       source: "Qwen/Qwen3-32B" 
       force: true
-    # Special tokens from DeepSeek-V3 preserved by default as it's the base model
+    # Special tokens from Zen preserved by default as it's the base model

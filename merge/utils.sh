@@ -2,7 +2,7 @@
 # Comprehensive utility script for model merge operations
 
 function show_help() {
-    echo "Utility script for DeepSeek-V3 and Qwen3 model merge operations"
+    echo "Utility script for Zen and Qwen3 model merge operations"
     echo ""
     echo "Usage: $0 [command]"
     echo ""
@@ -140,7 +140,7 @@ function recover() {
 }
 
 function estimate() {
-    echo "Estimating resource requirements for DeepSeek-V3 and Qwen3 merge..."
+    echo "Estimating resource requirements for Zen and Qwen3 merge..."
     
     # Check disk space
     echo "Checking available disk space..."
