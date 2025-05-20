@@ -1,215 +1,228 @@
-# ZENITH Model Architecture and Implementation Guide
+# Zen: Spatially-Aware Dynamic Routing Architecture
 
-## 1. Project Overview
+## 1. Technical Overview
 
-ZENITH (Zen Expert Network with Integrated Token Handling) is a revolutionary unified multimodal platform that combines multiple specialized AI experts through an innovative Mixture-of-Experts (UMoE) architecture. This advanced system integrates multiple model families—including Zen (671B parameters, 37B activated), Qwen3 (235B parameters, 22B activated), Zen-M for multimodal understanding, and Koe for voice synthesis—into a single, unified platform that scales from 22B to 900B+ parameters depending on deployment requirements.
+Zen is a groundbreaking spatially-aware foundation model that dynamically integrates LLaVA-NEXT-Interleaved (vision), DeepSeek-V3 (671B parameters), Qwen3 (235B parameters), and Phi-4 (multimodal reasoning) through an innovative adaptive routing architecture. This revolutionary system unifies perception, reasoning, and action across multiple modalities while maintaining awareness of 3D spatial relationships and physical constraints.
 
-### Key Features
+### Key Technical Features
 
-- **Architecture**: Unified multimodal MoE architecture with flexible parameter scaling (22B-900B+)
-- **Attention**: Revolutionary cross-modality attention with dynamic expert routing 
-- **Expert Sharing**: Parameter-efficient design with shared experts across modalities
-- **Tokenizer**: Unified vocabulary supporting text, voice, and multimodal inputs
-- **Multimodal Capabilities**: Integration of Zen-M for UI understanding and Koe for voice synthesis
-- **Sensor Extensibility**: Modular architecture designed for integrating additional sensors and modalities
-- **Deployment Flexibility**: Dynamically scales from edge devices (22B) to high-performance servers (900B+)
+- **Architecture**: Dynamic router connecting specialized expert models with flexible parameter scaling (0.6B-900B+)
+- **Spatial Awareness**: First foundation model with explicit 3D geometric understanding and reasoning
+- **Hypermodal Perception**: Unified processing of visual, depth, inertial, radar, and thermal inputs
+- **Expert Integration**: Intelligent orchestration between DeepSeek-V3, Qwen3, Phi-4, and LLaVA-NEXT-Interleaved
+- **Deployment Spectrum**: Configurable from microcontroller (0.6B) to high-performance clusters (900B+)
+- **Edge Optimization**: Resource-aware computing with dynamic precision and expert activation
 
-## 2. Code Structure
+## 2. Code Organization
 
 ```
 /zen
-├── figures/                # Model performance benchmark figures
+├── figures/                # Performance benchmarks and visualization
 ├── inference/              # Inference implementation
-│   ├── configs/            # Model configuration files
-│   ├── convert.py          # Conversion utilities for model weights
-│   ├── fp8_cast_bf16.py    # Utility to convert FP8 weights to BF16
-│   ├── generate.py         # Text generation implementation
-│   ├── kernel.py           # Low-level kernel implementations
-│   ├── model.py            # Model architecture definition
-│   └── requirements.txt    # Inference dependencies
-├── merge/                  # ZENITH model merging implementation
-│   ├── config.yml          # Configuration for Zen and Qwen3 merge
-│   ├── merge_models.sh     # Main script for model merging process
-│   ├── run_merge.sh        # Script to execute the merge operation
-│   ├── setup_mergekit.sh   # Setup script for Mergekit installation
-│   ├── test_merged_model.sh # Script to test the merged model
-│   ├── update_config.py    # Script to update merged model configuration
-│   ├── utils.sh            # Utility scripts for cleanup and monitoring
-│   └── README.md           # Documentation for model merging process
+│   ├── configs/            # Configuration files for various deployments
+│   ├── router/             # Dynamic router implementation
+│   ├── experts/            # Expert model interfaces
+│   ├── spatial/            # 3D understanding components
+│   ├── convert.py          # Weight conversion utilities
+│   ├── generate.py         # Generation implementation
+│   ├── kernels/            # Optimized kernels for different hardware
+│   └── requirements.txt    # Dependencies
+├── merge/                  # Expert integration framework
+│   ├── config.yml          # Expert configuration
+│   ├── merge_models.sh     # Expert integration scripts
+│   ├── router_train.py     # Router training implementation
+│   └── README.md           # Integration documentation
+├── deploy/                 # Deployment utilities
+│   ├── edge/               # Edge-optimized deployment
+│   ├── enterprise/         # Enterprise deployment
+│   └── cloud/              # Distributed cloud deployment
 └── README*.md              # Documentation files
 ```
 
-## 3. Architecture Details
+## 3. Dynamic Router Architecture
 
-### 3.1 UMoE Architecture
+### 3.1 Router Framework
 
-The ZENITH model uses the Unified Mixture-of-Experts (UMoE) architecture that innovatively reformulates attention to reveal its underlying feed-forward network (FFN) structure:
+Zen's dynamic router is the core innovation enabling efficient orchestration across diverse expert models:
 
-- **Token Mixing**: Contextual information exchange through weighted summation of tokens
-- **Expert Processing**: Standard two-layer FFNs as the primary components for knowledge storage
-- **Router Mechanism**: Dynamic dispatch of tokens to the most relevant experts
+- **Task Classification**: Analysis of input to determine optimal processing pathway
+- **Resource-Aware Scheduling**: Expert activation based on available computational resources
+- **Cross-Modal Coordination**: Orchestration of information flow between perception and reasoning components
+- **Spatial Context Management**: Maintenance of 3D relationships throughout processing pipeline
 
-This unified design allows attention and FFN layers to share parameters efficiently, with the distinction between them lying solely in how token mixing is handled.
-
-#### Multi-head Attention Reformulation
-
-The key insight in UMoE is the reformulation of the standard multi-head attention mechanism. Instead of the traditional formulation with separate value and output projections, the pre-mixing approach reorders operations to reveal an FFN-like structure:
-
+```python
+# Simplified router implementation
+class ZenRouter:
+    def __init__(self, config):
+        self.experts = {
+            'vision': load_expert('llava_next_interleaved'),
+            'language_codegen': load_expert('deepseek_v3'),
+            'language_reasoning': load_expert('qwen3'),
+            'multimodal': load_expert('phi4'),
+            'spatial': load_expert('proprietary_3d')
+        }
+        self.routing_policy = RoutingPolicy(config)
+        self.spatial_context = SpatialContextManager()
+        
+    def route(self, inputs, context=None, resources=None):
+        # Analyze input modalities and task requirements
+        task_embedding = self.classify_task(inputs)
+        
+        # Determine optimal expert allocation based on task and resources
+        routing_plan = self.routing_policy.plan(
+            task_embedding,
+            context=context,
+            available_resources=resources
+        )
+        
+        # Initialize spatial context if relevant
+        if routing_plan.requires_spatial:
+            self.spatial_context.initialize(inputs)
+        
+        # Execute routing plan through selected experts
+        outputs = self.execute_plan(inputs, routing_plan)
+        
+        # Update spatial context with new information
+        if routing_plan.requires_spatial:
+            self.spatial_context.update(outputs)
+            
+        return outputs
 ```
-# Traditional attention (simplified):
-attention_output = softmax(QK^T/√d) × (V) × Wo
 
-# UMoE pre-mixing attention (simplified):
-attention_output = softmax(QK^T/√d) × X × (Wv × Wo)
-```
+### 3.2 Spatial Understanding Framework
 
-This reformulation enables the `(Wv × Wo)` term to be implemented as a standard FFN (with appropriate non-linear activation), which can be shared with the actual FFN layers of the model.
+The spatial understanding component enables Zen to perceive and reason about 3D environments:
 
-### 3.2 Merged Model Configuration
+- **Geometric Feature Extraction**: Analysis of shapes, surfaces, and spatial arrangements
+- **Object Permanence**: Tracking entities even when temporarily occluded
+- **Physics Simulation**: Predicting how objects will move and interact
+- **Spatial Memory**: Building and maintaining mental maps of environments
+- **Multi-View Integration**: Combining information from different perspectives
 
-The ZENITH model combines configurations from both source models:
+### 3.3 Expert Integration
 
-- **Baseline Architecture**: Zen's core architecture with 61 transformer layers, 128 attention heads, and 7168 embedding dimension
-- **Expert Configuration**: 256 routed experts with 8 activated per token
-- **Router Strategy**: Hidden state initialization for optimal router training
-- **Tokenizer**: Unified vocabulary with preserved special tokens
+Zen integrates multiple specialized expert models through:
 
-### 3.3 Key Components
+- **Common Representation Space**: Unified embedding that enables cross-expert communication
+- **Expert-Specific Adapters**: Interface layers connecting heterogeneous model architectures
+- **Parallel Processing**: Simultaneous activation of complementary experts for complex tasks
+- **Expert Specialization Preservation**: Maintaining peak performance of constituent models
+- **Cross-Expert Knowledge Transfer**: Enabling synergistic capabilities beyond individual experts
 
-#### Unified Expert Design
+## 4. Implementation Methodologies
 
-Experts in ZENITH are implemented as standard two-layer FFNs with:
+### 4.1 Efficient Routing
 
-- Small intermediate dimensions to align with Qwen3's architecture
-- Non-linear activation functions between matrix multiplications
-- Low-rank projections for query matrices to maintain parameter efficiency
+Zen's router achieves high efficiency through several optimization techniques:
 
-#### Router Initialization
+- **Early Exit Pathways**: Short-circuiting processing for simple queries
+- **Expert Caching**: Reusing previous computations for similar inputs
+- **Attention Sparsification**: Focusing computational resources on the most relevant tokens
+- **Layerwise Routing**: Different expert allocation at different processing depths
+- **Dynamic Precision Control**: Adjusting numerical precision based on task requirements
 
-The router initialization uses the hidden state approach that:
+### 4.2 Spatial Processing
 
-- Creates representations from the last layer using carefully crafted prompts
-- Guides the router to direct tokens to the most appropriate experts
-- Balances Zen's code expertise with Qwen3's mathematical reasoning
+The spatial processing pipeline enables Zen to understand and reason about 3D environments:
 
-#### Tokenizer Unification
+1. **Perception**: Multi-sensor input processing (visual, depth, radar, etc.)
+2. **Feature Extraction**: Identification of objects, surfaces, and spatial relationships
+3. **Scene Graph Construction**: Building a structured representation of the environment
+4. **Physical Reasoning**: Applying physics-based models to predict dynamics
+5. **Spatial Planning**: Generating and evaluating potential actions in 3D space
 
-The tokenizer unification strategy uses:
+### 4.3 Hypermodal Integration
 
-- **SLERP** (Spherical Linear Interpolation) for embedding vectors of tokens present in both models
-- **Direct transfer** for tokens unique to each model
-- **Token priority resolution** based on domain performance
-- **Special token preservation** for critical functionality like Qwen3's thinking modes
+Zen unifies multiple perception modalities through several integration mechanisms:
 
-## 4. Merging Methodology
+- **Cross-Modal Alignment**: Consistent representation across different sensor types
+- **Complementary Fusion**: Combining strengths of different modalities
+- **Modality Completion**: Inferring missing information from available modalities
+- **Uncertainty Management**: Explicit handling of sensor noise and ambiguity
+- **Hierarchical Integration**: From low-level features to high-level semantic understanding
 
-### 4.1 Base Model Selection
+## 5. Deployment Strategies
 
-Zen serves as the base model for attention and normalization layers, providing:
+### 5.1 Edge Deployment
 
-- Efficient Multi-head Latent Attention (MLA) mechanism
-- Advanced positional encoding for long context
-- Stable and well-optimized architecture
+Optimized configurations for resource-constrained environments:
 
-### 4.2 Expert Integration
+- **Model Distillation**: Compressed knowledge transfer from large to small models
+- **Quantization**: INT8/INT4 precision for efficient computation
+- **Expert Selection**: Focused subset of experts for specific deployment scenarios
+- **On-Device Learning**: Local adaptation to specific environments and tasks
+- **Power Management**: Dynamic scaling based on battery constraints
 
-Experts from both models are integrated through:
+### 5.2 Enterprise Deployment
 
-- **Expert Initialization**: Preservation of specialized weights from both models
-- **Domain Specialization**: Careful selection of prompts to guide router initialization
-- **Balancing**: Even distribution of experts to maintain performance across domains
+Balanced configurations for organizational infrastructure:
 
-### 4.3 Router Training
+- **Hybrid Edge-Cloud**: Distributed processing with dynamic offloading
+- **Security Integration**: Enhanced protection for sensitive applications
+- **Compliance Features**: Configurable controls for regulated industries
+- **Deployment Isolation**: Containerization and access management
+- **Monitoring Framework**: Performance and behavior tracking
 
-The router is trained using:
+### 5.3 Cloud Deployment
 
-- **Specialized Prompts**: Examples that highlight each model's strengths
-- **Hidden State Approach**: Most effective though computationally intensive strategy
-- **Token Distribution Analysis**: Ensuring balanced activation across all experts
+Maximum capability through distributed infrastructure:
 
-## 5. Implementation Patterns
+- **Multi-Node Scaling**: Parallel processing across server clusters
+- **Expert Sharding**: Distributing experts across computational resources
+- **Dynamic Provisioning**: Automatic scaling based on demand patterns
+- **Fault Tolerance**: Graceful degradation and recovery mechanisms
+- **Continuous Optimization**: Ongoing refinement of routing policies
 
-### 5.1 Distributed Merging
+## 6. Advanced Capabilities
 
-The merge process leverages distributed computing through:
+### 6.1 Multi-Agent Coordination
 
-- **Multi-GPU Parallelism**: Utilizing tensor and pipeline parallelism
-- **Memory Optimization**: Loading models in 8-bit precision during merging
-- **Sharded Processing**: Breaking the merge into manageable chunks
+Zen enables sophisticated coordination among multiple autonomous agents:
 
-### 5.2 Memory Management
+- **Decentralized Planning**: Independent agents developing coordinated strategies
+- **Spatial Role Assignment**: Dynamic task allocation based on agent positions
+- **Formation Control**: Maintaining spatial relationships between agents
+- **Mesh Networking**: Self-organizing communication networks
+- **Collective Perception**: Integrating sensor data from multiple viewpoints
 
-Several techniques are used to manage the massive memory requirements:
+### 6.2 3D Reasoning
 
-- **Lazy Unpickling**: Loading model components only when needed
-- **Gradient Accumulation**: Processing smaller batches to reduce memory footprint
-- **Output Sharding**: Controlling shard size for optimal storage
+Zen's spatial awareness enables advanced 3D reasoning capabilities:
 
-### 5.3 Token Routing Optimization
+- **Occlusion Reasoning**: Understanding what exists but cannot currently be seen
+- **Spatial Relationships**: Comprehending complex arrangements of objects
+- **Perspective Taking**: Reasoning from viewpoints other than current position
+- **Counterfactual Simulation**: Imagining alternative physical scenarios
+- **Causal Understanding**: Identifying cause-and-effect relationships in physical events
 
-The token routing process is optimized through:
+### 6.3 Hypermodal Perception
 
-- **Balanced Activation**: Ensuring even utilization of experts
-- **Domain Awareness**: Using prompts that guide specialists toward appropriate domains
-- **Controlled Redundancy**: Maintaining some redundancy for robustness
+Zen's sensor fusion capabilities enable perception beyond traditional modalities:
 
-## 6. Inference
+- **Multi-Spectrum Visual Processing**: From ultraviolet to infrared
+- **Non-Visual Sensing**: Radar, ultrasonic, and other penetrating modalities
+- **Inertial Understanding**: Processing accelerometer and gyroscope data
+- **Thermal Perception**: Temperature distribution analysis
+- **Audio-Visual Integration**: Combining sound and vision for enhanced perception
 
-### 6.1 Deploying the Model
+## 7. Development Guidelines
 
-Multiple options are available for running inference:
+When working with or extending the Zen architecture:
 
-1. **DeepSeek-Infer Demo**: Simple demo for both FP8 and BF16 inference
-2. **SGLang**: Full support with FP8 and BF16 precision
-3. **LMDeploy**: Efficient FP8 and BF16 inference
-4. **TensorRT-LLM**: BF16 inference with INT4/8 quantization
-5. **vLLM**: Tensor and pipeline parallelism support
-6. **LightLLM**: Efficient single-node or multi-node deployment
+1. **Router Extensions**: Adding new routing policies or expert selection strategies
+2. **Expert Integration**: Incorporating additional specialized models as experts
+3. **Modality Expansion**: Supporting new sensor types and input formats
+4. **Deployment Optimization**: Tuning for specific hardware and resource constraints
+5. **Application Development**: Building on the spatial capabilities for domain-specific solutions
 
-### 6.2 Weight Conversion
+## 8. Future Directions
 
-The repository includes utilities for:
+Ongoing research and development focus on:
 
-- Converting from mergekit format to inference-optimized format
-- Converting from FP8 to BF16 weights for frameworks without FP8 support
-- Handling special tokens and ensuring tokenizer compatibility
-
-### 6.3 Generation Pipeline
-
-The generation process:
-
-1. Tokenize input prompt
-2. Apply chat template if needed for conversation
-3. Check for special tokens like `/think` and route appropriately
-4. Forward pass through the model to get token probabilities
-5. Temperature-controlled sampling for next token selection
-6. Repeat until completion conditions are met
-
-## 7. Development Considerations
-
-When working with or extending the ZENITH model:
-
-1. **Hardware Requirements**: The full model requires multiple high-end GPUs for inference
-2. **Precision Options**: Consider using the native FP8 support for optimal performance
-3. **Special Tokens**: Leverage the preserved special tokens like `/think` for enhanced capabilities
-4. **Extended Context**: Take advantage of the 128K context support for long-document tasks
-
-## 8. Integration with External Frameworks
-
-The model can be integrated with:
-
-- **vLLM** for high-throughput serving
-- **SGLang** for both NVIDIA and AMD GPU support
-- **TensorRT-LLM** for optimized inference on NVIDIA hardware
-- **LMDeploy** for production-ready deployment
-- **Huawei Ascend NPUs** through the MindIE framework
-
-## 9. Future Work
-
-Ongoing development focuses on:
-
-1. **Performance optimization**: Enhancing the router mechanism for more efficient expert utilization
-2. **Multi-token prediction**: Integrating MTP capabilities from both source models
-3. **Advanced merging techniques**: Exploring MergeME for heterogeneous expert merging
-4. **Evaluation benchmarks**: Developing specialized benchmarks to assess merged model capabilities
-5. **Add more experts**: Building toward a comprehensive "Zen-Omni" model by incorporating additional expert models
+1. **Enhanced Spatial Reasoning**: More sophisticated physical simulation and prediction
+2. **Additional Sensor Modalities**: Integration of novel perception capabilities
+3. **Dynamic Expert Learning**: Continuous refinement of expert performance
+4. **Router Policy Evolution**: Self-improving routing decisions based on performance data
+5. **Cross-Domain Transfer**: Applying spatial expertise to new application domains
+6. **Swarm Intelligence**: Enhanced multi-agent coordination for complex environments
+7. **Causal Discovery**: Unsupervised learning of physical and statistical causal structures

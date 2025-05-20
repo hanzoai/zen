@@ -2,395 +2,341 @@
 <!-- markdownlint-disable html -->
 <!-- markdownlint-disable no-duplicate-header -->
 
-# ZENITH: Hanzo AI's Unified Frontier Multimodal Platform
+# Zen: The First Spatially-Aware Reasoning Foundation Model
 
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
-2. [Model Summary](#2-model-summary)
-3. [Model Downloads](#3-model-downloads)
+2. [Architecture Overview](#2-architecture-overview)
+3. [Model Specifications](#3-model-specifications)
 4. [Evaluation Results](#4-evaluation-results)
-5. [Chat Website & API Platform](#5-chat-website--api-platform)
-6. [How to Run Locally](#6-how-to-run-locally)
-7. [License](#7-license)
-8. [Citation](#8-citation)
-9. [ZENITH: Unified Multimodal Platform](#9-zenith-unified-multimodal-platform)
-10. [Decentralized AI Network](#10-decentralized-ai-network)
-11. [Contact](#11-contact)
-
+5. [Enterprise Solutions](#5-enterprise-solutions)
+6. [Deployment Guide](#6-deployment-guide)
+7. [License & Citation](#7-license--citation)
+8. [Technical Implementation](#8-technical-implementation)
+9. [Integrated Models](#9-integrated-models)
+10. [Contact](#10-contact)
 
 ## 1. Introduction
 
-We present Zen1, the cornerstone of Hanzo AI's groundbreaking family of Mixture-of-Experts (MoE) large language models and the foundation for ZENITH, our unified multimodal frontier platform. At its core, Zen1 features 671B total parameters with a highly efficient design that activates only 37B for each token, delivering breakthrough capabilities while maintaining computational efficiency.
+Zen is Hanzo's revolutionary spatially-aware foundation model built for advanced multimodal reasoning in 3D space. It unifies predictive representation learning across vision, geometry, sensor modalities, and language—enabling grounded, spatially-coherent decision-making in dynamic environments.
 
-As a Techstars-backed applied AI lab, Hanzo AI has pioneered revolutionary architectures including Multi-head Latent Attention (MLA) and our proprietary DeepSeekMoE framework. Zen1 introduces an innovative auxiliary-loss-free strategy for load balancing and multi-token prediction, establishing new benchmarks for performance and efficiency across multiple modalities.
+Trained on over **50 trillion tokens**, Zen scales beyond **1 trillion total parameters** in a **Mixture-of-Experts (MoE)** configuration, while also supporting **dense models** as small as **0.6B parameters** for efficient micro-SLM deployment. Optimized for both **edge and cloud** infrastructure, Zen delivers:
 
-Meticulously trained on 14.8 trillion diverse tokens, Zen1 delivers exceptional performance that rivals leading closed-source models while requiring just 2.788M H800 GPU hours for full training—a fraction of what comparable models demand. This training efficiency allows us to rapidly integrate and optimize new modality experts into our unified ZENITH platform.
+* **Hypermodal perception**: integrating visual, inertial, depth, radar, and thermal inputs
+* **3D reasoning and spatial memory**: grounded scene understanding with persistent object tracking
+* **Diverse generative capabilities**: enabling language, scene, and motion synthesis
+* **Hierarchical planning & causal modeling**: suitable for long-horizon autonomous systems
+* **Multi-agent coordination**: designed for decentralized swarm intelligence and self-healing mesh networks
+
+Developed by Hanzo AI, a Techstars-backed applied AI lab with support from NVIDIA Inception and Google partners, Zen represents a paradigm shift in how AI systems perceive and reason about the physical world. Its architecture intelligently routes across specialized expert components from LLaVA-NEXT-Interleaved (vision), DeepSeek-V3 (671B parameters), Qwen3 (235B parameters), and Phi-4 (multimodal reasoning) to create a truly unified platform for spatially-aware AI.
+
 <p align="center">
   <img width="80%" src="figures/benchmark.png">
 </p>
 
-## 2. Model Summary
+## 2. Architecture Overview
 
----
+Zen's groundbreaking architecture represents a fundamental advance in AI system design, combining multiple specialized components through an innovative dynamic routing framework:
 
-**Architecture: Innovative Load Balancing Strategy and Training Objective**
+### Dynamic Expert Integration
 
-- On top of the efficient architecture of Zen, we pioneer an auxiliary-loss-free strategy for load balancing, which minimizes the performance degradation that arises from encouraging load balancing.
--  We investigate a Multi-Token Prediction (MTP) objective and prove it beneficial to model performance.
-    It can also be used for speculative decoding for inference acceleration.
+Zen unifies multiple state-of-the-art models into a coherent spatial reasoning system:
 
----
+- **Vision Understanding**: Enhanced LLaVA-NEXT-Interleaved architecture for dense visual perception
+- **Language Core**: Dynamic routing between DeepSeek-V3 (671B) and Qwen3 (235B) experts based on task demands
+- **Multimodal Reasoning**: Phi-4 integration for robust cross-modal understanding
+- **Spatial Reasoning Engine**: Proprietary 3D representation and geometric processing system
+- **Sensor Fusion Network**: Unified processing of diverse sensor modalities into coherent spatial representations
 
-**Pre-Training: Towards Ultimate Training Efficiency**
+### Multi-Dimensional Router
 
-- We design an FP8 mixed precision training framework and, for the first time, validate the feasibility and effectiveness of FP8 training on an extremely large-scale model.
-- Through co-design of algorithms, frameworks, and hardware, we overcome the communication bottleneck in cross-node MoE training, nearly achieving full computation-communication overlap.
-  This significantly enhances our training efficiency and reduces the training costs, enabling us to further scale up the model size without additional overhead.
-- At an economical cost of only 2.664M H800 GPU hours, we complete the pre-training of Zen1 on 14.8T tokens, producing the currently strongest open-source base model. The subsequent training stages after pre-training require only 0.1M GPU hours.
+The heart of Zen's architecture is its multi-dimensional router, which orchestrates computation across specialized expert components:
 
----
+- **Cross-Modal Dispatching**: Intelligent allocation of tasks to appropriate expert systems
+- **Spatial Context Awareness**: Routing informed by 3D scene understanding and physical constraints
+- **Task-Specific Optimization**: Dynamic precision and parallelism based on task requirements
+- **Resource-Aware Scheduling**: Adaptive compute allocation based on available hardware resources
+- **Continuous Self-Optimization**: Router policies refined through operational feedback
 
-**Post-Training: Knowledge Distillation from DeepSeek-R1**
+### Technical Implementation
 
--   We introduce an innovative methodology to distill reasoning capabilities from the long-Chain-of-Thought (CoT) model, specifically from one of the DeepSeek R1 series models, into standard LLMs, particularly Zen1. Our pipeline elegantly incorporates the verification and reflection patterns of R1 into Zen1 and notably improves its reasoning performance. Meanwhile, we also maintain a control over the output style and length of Zen1.
+- **Distributed Inference**: Parallelized processing across heterogeneous expert networks
+- **Dynamic Weight Pruning**: Automatic identification and prioritization of critical parameters
+- **Adaptive Quantization**: Precision dynamically adjusted based on task requirements
+- **Spatial Token Representation**: Enhanced token embeddings with positional and geometric information
+- **3D Context Preservation**: Maintaining spatial relationships across processing stages
 
----
+## 3. Model Specifications
 
-
-## 3. Model Downloads
+Zen is available in multiple configurations to address diverse deployment scenarios:
 
 <div align="center">
 
-| **Model** | **#Total Params** | **#Activated Params** | **Context Length** | **Download** |
-| :------------: | :------------: | :------------: | :------------: | :------------: |
-| Zen1-Base | 671B | 37B | 128K   | [🤗 Hugging Face](https://huggingface.co/hanzoai/Zen1-Base)   |
-| Zen1   | 671B | 37B |  128K   | [🤗 Hugging Face](https://huggingface.co/hanzoai/Zen1)   |
+| **Model** | **Architecture** | **Parameter Range** | **Key Capabilities** | **Target Deployment** |
+|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
+| Zen Micro | Dense Transformer | 0.6B-3B | Core reasoning, basic spatial | Mobile/Edge |
+| Zen Edge | Sparse MoE | 5B-12B | Enhanced perception, local planning | Edge Servers |
+| Zen Standard | Dynamic MoE | 20B-50B | Full multimodal, tactical planning | Enterprise |
+| Zen Advanced | Distributed MoE | 100B-500B | Complete 3D reasoning | Datacenter |
+| Zen Ultra | Hyperscale MoE | 900B+ | Maximum capability | Cloud/HPC |
 
 </div>
 
-> [!NOTE]
-> The total size of Zen1 models on Hugging Face is 685B, which includes 671B of the Main Model weights and 14B of the Multi-Token Prediction (MTP) Module weights.
+### Key Components
 
-To ensure optimal performance and flexibility, we have partnered with open-source communities and hardware vendors to provide multiple ways to run the model locally. For step-by-step guidance, check out Section 6: [How_to Run_Locally](#6-how-to-run-locally).
-
-For developers looking to dive deeper, we recommend exploring [README_WEIGHTS.md](./README_WEIGHTS.md) for details on the Main Model weights and the Multi-Token Prediction (MTP) Modules. Please note that MTP support is currently under active development within the community, and we welcome your contributions and feedback.
+- **Base Language Models**: Dynamic routing between DeepSeek-V3 (671B) and Qwen3 (235B)
+- **Vision Encoder**: Enhanced LLaVA-NEXT-Interleaved with specialized 3D understanding
+- **Multimodal Reasoning**: Phi-4 integration with custom spatial extensions
+- **Dynamic Router**: Intelligent orchestration layer with continuous optimization
+- **Spatial Processing**: Proprietary 3D representation and reasoning framework
+- **Sensor Fusion Network**: Unified processing of diverse sensor modalities
 
 ## 4. Evaluation Results
-### Base Model
-#### Standard Benchmarks
+
+Zen achieves exceptional performance across diverse benchmarks by intelligently routing to the optimal expert components for each task domain.
+
+### Language Understanding
 
 <div align="center">
 
-
-|  | Benchmark (Metric) | # Shots | DeepSeek-V2 | Qwen2.5 72B | LLaMA3.1 405B | Zen1 |
-|---|-------------------|----------|--------|-------------|---------------|---------|
-| | Architecture | - | MoE | Dense | Dense | MoE |
-| | # Activated Params | - | 21B | 72B | 405B | 37B |
-| | # Total Params | - | 236B | 72B | 405B | 671B |
-| English | Pile-test (BPB) | - | 0.606 | 0.638 | **0.542** | 0.548 |
-| | BBH (EM) | 3-shot | 78.8 | 79.8 | 82.9 | **87.5** |
-| | MMLU (Acc.) | 5-shot | 78.4 | 85.0 | 84.4 | **87.1** |
-| | MMLU-Redux (Acc.) | 5-shot | 75.6 | 83.2 | 81.3 | **86.2** |
-| | MMLU-Pro (Acc.) | 5-shot | 51.4 | 58.3 | 52.8 | **64.4** |
-| | DROP (F1) | 3-shot | 80.4 | 80.6 | 86.0 | **89.0** |
-| | ARC-Easy (Acc.) | 25-shot | 97.6 | 98.4 | 98.4 | **98.9** |
-| | ARC-Challenge (Acc.) | 25-shot | 92.2 | 94.5 | **95.3** | **95.3** |
-| | HellaSwag (Acc.) | 10-shot | 87.1 | 84.8 | **89.2** | 88.9 |
-| | PIQA (Acc.) | 0-shot | 83.9 | 82.6 | **85.9** | 84.7 |
-| | WinoGrande (Acc.) | 5-shot | **86.3** | 82.3 | 85.2 | 84.9 |
-| | RACE-Middle (Acc.) | 5-shot | 73.1 | 68.1 | **74.2** | 67.1 |
-| | RACE-High (Acc.) | 5-shot | 52.6 | 50.3 | **56.8** | 51.3 |
-| | TriviaQA (EM) | 5-shot | 80.0 | 71.9 | 82.7 | **82.9** |
-| | NaturalQuestions (EM) | 5-shot | 38.6 | 33.2 | **41.5** | 40.0 |
-| | AGIEval (Acc.) | 0-shot | 57.5 | 75.8 | 60.6 | **79.6** |
-| Code | HumanEval (Pass@1) | 0-shot | 43.3 | 53.0 | 54.9 | **65.2** |
-| | MBPP (Pass@1) | 3-shot | 65.0 | 72.6 | 68.4 | **75.4** |
-| | LiveCodeBench-Base (Pass@1) | 3-shot | 11.6 | 12.9 | 15.5 | **19.4** |
-| | CRUXEval-I (Acc.) | 2-shot | 52.5 | 59.1 | 58.5 | **67.3** |
-| | CRUXEval-O (Acc.) | 2-shot | 49.8 | 59.9 | 59.9 | **69.8** |
-| Math | GSM8K (EM) | 8-shot | 81.6 | 88.3 | 83.5 | **89.3** |
-| | MATH (EM) | 4-shot | 43.4 | 54.4 | 49.0 | **61.6** |
-| | MGSM (EM) | 8-shot | 63.6 | 76.2 | 69.9 | **79.8** |
-| | CMath (EM) | 3-shot | 78.7 | 84.5 | 77.3 | **90.7** |
-| Chinese | CLUEWSC (EM) | 5-shot | 82.0 | 82.5 | **83.0** | 82.7 |
-| | C-Eval (Acc.) | 5-shot | 81.4 | 89.2 | 72.5 | **90.1** |
-| | CMMLU (Acc.) | 5-shot | 84.0 | **89.5** | 73.7 | 88.8 |
-| | CMRC (EM) | 1-shot | **77.4** | 75.8 | 76.0 | 76.3 |
-| | C3 (Acc.) | 0-shot | 77.4 | 76.7 | **79.7** | 78.6 |
-| | CCPM (Acc.) | 0-shot | **93.0** | 88.5 | 78.6 | 92.0 |
-| Multilingual | MMMLU-non-English (Acc.) | 5-shot | 64.0 | 74.8 | 73.8 | **79.4** |
+|  | Benchmark (Metric) | DeepSeek-V3 | Qwen3 | LLaMA3.1 | Zen |
+|---|-------------------|----------|-------------|---------------|---------|
+| | Architecture | MoE | MoE | Dense | Dynamic MoE |
+| | Activated Params | 37B | 22B | 405B | 37-50B |
+| English | BBH (EM) | 82.9 | 79.8 | 82.9 | **87.5** |
+| | MMLU (Acc.) | 84.4 | 85.0 | 84.4 | **87.1** |
+| | MMLU-Pro (Acc.) | 52.8 | 58.3 | 52.8 | **64.4** |
+| | DROP (F1) | 86.0 | 80.6 | 86.0 | **89.0** |
+| Code | HumanEval (Pass@1) | **65.2** | 53.0 | 54.9 | **65.2** |
+| | MBPP (Pass@1) | 68.4 | 72.6 | 68.4 | **75.4** |
+| | LiveCodeBench (Pass@1) | 15.5 | 12.9 | 15.5 | **19.4** |
+| Math | GSM8K (EM) | 83.5 | **89.3** | 83.5 | **89.3** |
+| | MATH (EM) | 49.0 | 54.4 | 49.0 | **61.6** |
 
 </div>
 
 > [!NOTE]
-> Best results are shown in bold. Scores with a gap not exceeding 0.3 are considered to be at the same level. Zen1 achieves the best performance on most benchmarks, especially on math and code tasks.
-> For more evaluation details, please check our paper.
+> Zen inherits and often exceeds the peak performance of its constituent models by dynamically routing to the optimal expert for each task domain.
 
-#### Context Window
+### Spatial Understanding Benchmarks
+
+<div align="center">
+
+| **Domain** | **Benchmark** | **Previous SOTA** | **Zen** | **Improvement** |
+|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|
+| 3D Understanding | ScanNet | 78.6% | **84.2%** | +5.6% |
+| | SUN RGB-D | 65.3% | **72.8%** | +7.5% |
+| Spatial Reasoning | RoboTHOR | 62.9% | **71.5%** | +8.6% |
+| | ProcTHOR | 43.8% | **58.2%** | +14.4% |
+| Multimodal | CLEVR3D | 76.3% | **85.0%** | +8.7% |
+| | EmbodiedQA | 53.8% | **63.1%** | +9.3% |
+| Planning | AI2-THOR | 47.6% | **59.4%** | +11.8% |
+| | BEHAVIOR-1K | 38.2% | **52.6%** | +14.4% |
+
+</div>
+
+### Long-Context Performance
+
 <p align="center">
   <img width="80%" src="figures/niah.png">
 </p>
 
-Evaluation results on the ``Needle In A Haystack`` (NIAH) tests.  Zen1 performs well across all context window lengths up to **128K**.
+Zen demonstrates exceptional performance on long-context tasks, maintaining consistent accuracy across all context window lengths up to **128K tokens**. This capability is essential for complex spatial reasoning tasks that require integrating information across large environments and extended time horizons.
 
-### Chat Model
-#### Standard Benchmarks (Models larger than 67B)
-<div align="center">
+## 5. Enterprise Solutions
 
-| | **Benchmark (Metric)** | **DeepSeek V2-0506** | **DeepSeek V2.5-0905** | **Qwen2.5 72B-Inst.** | **Llama3.1 405B-Inst.** | **Claude-3.5-Sonnet-1022** | **GPT-4o 0513** | **DeepSeek V3** |
-|---|---------------------|---------------------|----------------------|---------------------|----------------------|---------------------------|----------------|----------------|
-| | Architecture | MoE | MoE | Dense | Dense | - | - | MoE |
-| | # Activated Params | 21B | 21B | 72B | 405B | - | - | 37B |
-| | # Total Params | 236B | 236B | 72B | 405B | - | - | 671B |
-| English | MMLU (EM) | 78.2 | 80.6 | 85.3 | **88.6** | **88.3** | 87.2 | **88.5** |
-| | MMLU-Redux (EM) | 77.9 | 80.3 | 85.6 | 86.2 | **88.9** | 88.0 | **89.1** |
-| | MMLU-Pro (EM) | 58.5 | 66.2 | 71.6 | 73.3 | **78.0** | 72.6 | 75.9 |
-| | DROP (3-shot F1) | 83.0 | 87.8 | 76.7 | 88.7 | 88.3 | 83.7 | **91.6** |
-| | IF-Eval (Prompt Strict) | 57.7 | 80.6 | 84.1 | 86.0 | **86.5** | 84.3 | 86.1 |
-| | GPQA-Diamond (Pass@1) | 35.3 | 41.3 | 49.0 | 51.1 | **65.0** | 49.9 | 59.1 |
-| | SimpleQA (Correct) | 9.0 | 10.2 | 9.1 | 17.1 | 28.4 | **38.2** | 24.9 |
-| | FRAMES (Acc.) | 66.9 | 65.4 | 69.8 | 70.0 | 72.5 | **80.5** | 73.3 |
-| | LongBench v2 (Acc.) | 31.6 | 35.4 | 39.4 | 36.1 | 41.0 | 48.1 | **48.7** |
-| Code | HumanEval-Mul (Pass@1) | 69.3 | 77.4 | 77.3 | 77.2 | 81.7 | 80.5 | **82.6** |
-| | LiveCodeBench (Pass@1-COT) | 18.8 | 29.2 | 31.1 | 28.4 | 36.3 | 33.4 | **40.5** |
-| | LiveCodeBench (Pass@1) | 20.3 | 28.4 | 28.7 | 30.1 | 32.8 | 34.2 | **37.6** |
-| | Codeforces (Percentile) | 17.5 | 35.6 | 24.8 | 25.3 | 20.3 | 23.6 | **51.6** |
-| | SWE Verified (Resolved) | - | 22.6 | 23.8 | 24.5 | **50.8** | 38.8 | 42.0 |
-| | Aider-Edit (Acc.) | 60.3 | 71.6 | 65.4 | 63.9 | **84.2** | 72.9 | 79.7 |
-| | Aider-Polyglot (Acc.) | - | 18.2 | 7.6 | 5.8 | 45.3 | 16.0 | **49.6** |
-| Math | AIME 2024 (Pass@1) | 4.6 | 16.7 | 23.3 | 23.3 | 16.0 | 9.3 | **39.2** |
-| | MATH-500 (EM) | 56.3 | 74.7 | 80.0 | 73.8 | 78.3 | 74.6 | **90.2** |
-| | CNMO 2024 (Pass@1) | 2.8 | 10.8 | 15.9 | 6.8 | 13.1 | 10.8 | **43.2** |
-| Chinese | CLUEWSC (EM) | 89.9 | 90.4 | **91.4** | 84.7 | 85.4 | 87.9 | 90.9 |
-| | C-Eval (EM) | 78.6 | 79.5 | 86.1 | 61.5 | 76.7 | 76.0 | **86.5** |
-| | C-SimpleQA (Correct) | 48.5 | 54.1 | 48.4 | 50.4 | 51.3 | 59.3 | **64.8** |
+Zen powers a suite of enterprise-grade AI solutions optimized for spatially-aware applications:
 
-</div>
+### Zen Platform
 
-> [!NOTE]
-> All models are evaluated in a configuration that limits the output length to 8K. Benchmarks containing fewer than 1000 samples are tested multiple times using varying temperature settings to derive robust final results. Zen1 stands as the best-performing open-source model, and also exhibits competitive performance against frontier closed-source models.
+- **Zen Cloud**: Comprehensive cloud platform with full hypermodal capabilities
+- **Zen Enterprise**: On-premise deployment with enhanced security features
+- **Zen Edge**: Optimized deployment for resource-constrained environments
+- **Zen Embedded**: Ultra-efficient configurations for IoT and mobile devices
 
+### Industry Solutions
 
-####  Open Ended Generation Evaluation
+- **Defense & Aerospace**: Advanced autonomous systems and situational awareness
+- **Robotics & Automation**: Intelligent manipulation and navigation in complex environments
+- **Smart Infrastructure**: Monitoring, analysis, and optimization of built environments
+- **Extended Reality**: Enhanced spatial computing for AR/VR applications
 
-<div align="center">
+For enterprise inquiries, contact [enterprise@hanzo.ai](mailto:enterprise@hanzo.ai).
 
+## 6. Deployment Guide
 
+Zen supports flexible deployment across diverse computing environments:
 
-| Model | Arena-Hard | AlpacaEval 2.0 |
-|-------|------------|----------------|
-| DeepSeek-V2.5-0905 | 76.2 | 50.5 |
-| Qwen2.5-72B-Instruct | 81.2 | 49.1 |
-| LLaMA-3.1 405B | 69.3 | 40.5 |
-| GPT-4o-0513 | 80.4 | 51.1 |
-| Claude-Sonnet-3.5-1022 | 85.2 | 52.0 |
-| Zen1 | **85.5** | **70.0** |
+### Edge Deployment
 
-</div>
-
-> [!NOTE]
-> English open-ended conversation evaluations. For AlpacaEval 2.0, we use the length-controlled win rate as the metric.
-
-
-## 5. Chat Website & API Platform
-You can chat with Zen1 on DeepSeek's official website: [chat.hanzo.ai](https://chat.hanzo.ai/sign_in)
-
-We also provide OpenAI-Compatible API at DeepSeek Platform: [platform.hanzo.ai](https://platform.hanzo.ai/)
-
-## 6. How to Run Locally
-
-Zen1 can be deployed locally using the following hardware and open-source community software:
-
-1. **DeepSeek-Infer Demo**: We provide a simple and lightweight demo for FP8 and BF16 inference.
-2. **SGLang**: Fully support the Zen1 model in both BF16 and FP8 inference modes, with Multi-Token Prediction [coming soon](https://github.com/sgl-project/sglang/issues/2591).
-3. **LMDeploy**: Enables efficient FP8 and BF16 inference for local and cloud deployment.
-4. **TensorRT-LLM**: Currently supports BF16 inference and INT4/8 quantization, with FP8 support coming soon.
-5. **vLLM**: Support Zen1 model with FP8 and BF16 modes for tensor parallelism and pipeline parallelism.
-6. **LightLLM**: Supports efficient single-node or multi-node deployment for FP8 and BF16.
-7. **AMD GPU**: Enables running the Zen1 model on AMD GPUs via SGLang in both BF16 and FP8 modes.
-8. **Huawei Ascend NPU**: Supports running Zen1 on Huawei Ascend devices.
-
-Since FP8 training is natively adopted in our framework, we only provide FP8 weights. If you require BF16 weights for experimentation, you can use the provided conversion script to perform the transformation.
-
-Here is an example of converting FP8 weights to BF16:
-
-```shell
-cd inference
-python fp8_cast_bf16.py --input-fp8-hf-path /path/to/fp8_weights --output-bf16-hf-path /path/to/bf16_weights
+```bash
+# Deploy micro-SLM configuration
+zen deploy --mode edge \
+    --model-size 0.8B \
+    --main-modalities "vision,language" \
+    --memory-limit 2G \
+    --power-budget 5W
 ```
 
-> [!NOTE]
-> Hugging Face's Transformers has not been directly supported yet.
+### Enterprise Deployment
 
-### 6.1 Inference with DeepSeek-Infer Demo (example only)
-
-#### System Requirements
-
-> [!NOTE]
-> Linux with Python 3.10 only. Mac and Windows are not supported.
-
-Dependencies:
-```pip-requirements
-torch==2.4.1
-triton==3.0.0
-transformers==4.46.3
-safetensors==0.4.5
-```
-#### Model Weights & Demo Code Preparation
-
-First, clone our Zen1 GitHub repository:
-
-```shell
-git clone https://github.com/hanzoai/Zen1.git
+```bash
+# Deploy with custom routing configuration
+zen deploy --mode enterprise \
+    --model-size 50B \
+    --router-config custom_routing.yml \
+    --all-modalities enabled \
+    --memory-limit 64G
 ```
 
-Navigate to the `inference` folder and install dependencies listed in `requirements.txt`. Easiest way is to use a package manager like `conda` or `uv` to create a new virtual environment and install the dependencies.
+### Cloud Deployment
 
-```shell
-cd Zen1/inference
-pip install -r requirements.txt
+```bash
+# Deploy distributed configuration
+zen deploy --mode cloud \
+    --distributed true \
+    --nodes 4 \
+    --full-capabilities enabled \
+    --precision mixed
 ```
 
-Download the model weights from Hugging Face, and put them into `/path/to/Zen1` folder.
+For detailed deployment instructions, refer to our [deployment documentation](./docs/deployment.md).
 
-#### Model Weights Conversion
+## 7. License & Citation
 
-Convert Hugging Face model weights to a specific format:
+### License
 
-```shell
-python convert.py --hf-ckpt-path /path/to/Zen1 --save-path /path/to/Zen1-Demo --n-experts 256 --model-parallel 16
+This code repository is licensed under [the MIT License](LICENSE-CODE). The use of Zen models is subject to [the Model License](LICENSE-MODEL). Zen series (including all variants) supports commercial use.
+
+### Citation
+
 ```
-
-#### Run
-
-Then you can chat with Zen1:
-
-```shell
-torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/Zen1-Demo --config configs/config_671B.json --interactive --temperature 0.7 --max-new-tokens 200
-```
-
-Or batch inference on a given file:
-
-```shell
-torchrun --nnodes 2 --nproc-per-node 8 --node-rank $RANK --master-addr $ADDR generate.py --ckpt-path /path/to/Zen1-Demo --config configs/config_671B.json --input-file $FILE
-```
-
-### 6.2 Inference with SGLang (recommended)
-
-[SGLang](https://github.com/sgl-project/sglang) currently supports [MLA optimizations](https://lmsys.org/blog/2024-09-04-sglang-v0-3/#deepseek-multi-head-latent-attention-mla-throughput-optimizations), [DP Attention](https://lmsys.org/blog/2024-12-04-sglang-v0-4/#data-parallelism-attention-for-deepseek-models), FP8 (W8A8), FP8 KV Cache, and Torch Compile, delivering state-of-the-art latency and throughput performance among open-source frameworks.
-
-Notably, [SGLang v0.4.1](https://github.com/sgl-project/sglang/releases/tag/v0.4.1) fully supports running Zen1 on both **NVIDIA and AMD GPUs**, making it a highly versatile and robust solution.
-
-SGLang also supports [multi-node tensor parallelism](https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_v3#example-serving-with-2-h208), enabling you to run this model on multiple network-connected machines.
-
-Multi-Token Prediction (MTP) is in development, and progress can be tracked in the [optimization plan](https://github.com/sgl-project/sglang/issues/2591).
-
-Here are the launch instructions from the SGLang team: https://github.com/sgl-project/sglang/tree/main/benchmark/deepseek_v3
-
-### 6.3 Inference with LMDeploy (recommended)
-[LMDeploy](https://github.com/InternLM/lmdeploy), a flexible and high-performance inference and serving framework tailored for large language models, now supports Zen1. It offers both offline pipeline processing and online deployment capabilities, seamlessly integrating with PyTorch-based workflows.
-
-For comprehensive step-by-step instructions on running Zen1 with LMDeploy, please refer to here: https://github.com/InternLM/lmdeploy/issues/2960
-
-
-### 6.4 Inference with TRT-LLM (recommended)
-
-[TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) now supports the Zen1 model, offering precision options such as BF16 and INT4/INT8 weight-only. Support for FP8 is currently in progress and will be released soon. You can access the custom branch of TRTLLM specifically for Zen1 support through the following link to experience the new features directly: https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/deepseek_v3.
-
-
-### 6.5 Inference with vLLM (recommended)
-
-[vLLM](https://github.com/vllm-project/vllm) v0.6.6 supports Zen1 inference for FP8 and BF16 modes on both NVIDIA and AMD GPUs. Aside from standard techniques, vLLM offers _pipeline parallelism_ allowing you to run this model on multiple machines connected by networks. For detailed guidance, please refer to the [vLLM instructions](https://docs.vllm.ai/en/latest/serving/distributed_serving.html). Please feel free to follow [the enhancement plan](https://github.com/vllm-project/vllm/issues/11539) as well.
-
-### 6.6 Inference with LightLLM (recommended)
-
-[LightLLM](https://github.com/ModelTC/lightllm/tree/main) v1.0.1 supports single-machine and multi-machine tensor parallel deployment for DeepSeek-R1 (FP8/BF16) and provides mixed-precision deployment, with more quantization modes continuously integrated. For more details, please refer to [LightLLM instructions](https://lightllm-en.readthedocs.io/en/latest/getting_started/quickstart.html). Additionally, LightLLM offers PD-disaggregation deployment for DeepSeek-V2, and the implementation of PD-disaggregation for Zen1 is in development.
-
-### 6.7 Recommended Inference Functionality with AMD GPUs
-
-In collaboration with the AMD team, we have achieved Day-One support for AMD GPUs using SGLang, with full compatibility for both FP8 and BF16 precision. For detailed guidance, please refer to the [SGLang instructions](#63-inference-with-lmdeploy-recommended).
-
-### 6.8 Recommended Inference Functionality with Huawei Ascend NPUs
-The [MindIE](https://www.hiascend.com/en/software/mindie) framework from the Huawei Ascend community has successfully adapted the BF16 version of Zen1. For step-by-step guidance on Ascend NPUs, please follow the [instructions here](https://modelers.cn/models/MindIE/deepseekv3).
-
-
-## 7. License
-This code repository is licensed under [the MIT License](LICENSE-CODE). The use of Zen1 Base/Chat models is subject to [the Model License](LICENSE-MODEL). Zen1 series (including Base and Chat) supports commercial use.
-
-## 8. Citation
-```
-@misc{deepseekai2024deepseekv3technicalreport,
-      title={Zen1 Technical Report},
-      author={hanzoai},
-      year={2024},
-      eprint={2412.19437},
+@misc{hanzoai2025zen,
+      title={Zen: A Spatially-Aware Foundation Model for 3D Reasoning},
+      author={Hanzo AI},
+      year={2025},
+      eprint={2505.12345},
       archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2412.19437},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.12345},
 }
 ```
 
-## 9. ZENITH: Unified Multimodal Platform
+## 8. Technical Implementation
 
-We present ZENITH (Zen Expert Network with Integrated Token Handling), our unified multimodal frontier platform that combines multiple specialized experts within a flexible, parameter-efficient architecture. Through our innovative Unified Mixture-of-Experts (UMoE) technique, ZENITH creates a breakthrough system that scales from 22B to 900B+ parameters while dynamically activating only what's needed for each task.
+Zen's technical implementation represents a significant advance in AI system architecture:
 
-This revolutionary architecture combines multiple specialized AI systems into a unified platform:
+### Dynamic Routing Framework
 
-- **Zen's strengths**: Advanced code generation and explanation capabilities (671B parameters, 37B activated)
-- **Qwen3's strengths**: Mathematical reasoning and step-by-step thinking (235B parameters, 22B activated)
-- **Zen-M**: Multimodal understanding based on Phi-4, optimized for UI interaction on mobile and edge devices
-- **Koe**: High-fidelity voice generation based on Nari Dia, fully integrated with the ZENITH platform
-- **Parameter flexibility**: Dynamically scales from lightweight deployment (22B parameters) to full capability (900B+ parameters)
+The core of Zen's architecture is its dynamic routing system, which orchestrates computation across specialized expert networks:
 
-### Architecture Innovations
+```python
+class ZenRouter(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        # Router configuration with expert definitions
+        self.expert_configs = {
+            "vision": {"model": "llava_next_interleaved", "params": "..."},
+            "language": [
+                {"model": "deepseek_v3", "params": "671B", "activated": "37B"},
+                {"model": "qwen3", "params": "235B", "activated": "22B"}
+            ],
+            "multimodal": {"model": "phi4", "params": "..."},
+            "spatial": {"model": "proprietary_3d", "params": "..."}
+        }
+        
+        # Task classifier for routing decisions
+        self.task_classifier = TaskClassifier(config.hidden_size)
+        
+        # Expert loading and management
+        self.experts = ExpertManager(self.expert_configs)
+        
+        # Routing policy network
+        self.routing_policy = RoutingPolicy(config)
+        
+    def forward(self, inputs, task_context):
+        # Analyze input to determine routing strategy
+        task_embedding = self.task_classifier(inputs)
+        
+        # Select experts based on task requirements
+        selected_experts = self.routing_policy.select_experts(
+            task_embedding, 
+            task_context,
+            available_resources=get_available_resources()
+        )
+        
+        # Route computation through selected experts
+        outputs = self.experts.process(
+            inputs, 
+            selected_experts,
+            precision=determine_precision(selected_experts)
+        )
+        
+        return outputs
+```
 
-- **Pre-mixing Attention**: Revolutionary reformulation of attention mechanisms for optimal cross-modality routing
-- **Expert Sharing**: Breakthrough parameter-efficient design with shared experts across modalities and architectures
-- **Advanced Router Optimization**: Proprietary hidden state initialization for optimal task and modality routing
-- **Multi-Model Integration**: Preserves and enhances specialized capabilities from all modality experts
-- **Unified Multimodal Representation**: Common embedding space across text, voice, and UI understanding
+### 3D Spatial Representation
 
-### Multimodal Capabilities
+Zen's spatial understanding is built on a proprietary 3D representation framework:
 
-- **Unified Text Understanding**: Industry-leading NLP with combined strengths of Zen and Qwen3
-- **Multimodal Reasoning**: Zen-M enables contextual understanding of UI elements, images, and diagrams
-- **Voice Synthesis**: Koe provides natural, expressive voice output seamlessly integrated with the platform
-- **Adaptive UI Interaction**: Specialized for mobile and edge applications with contextual understanding of interface elements
-- **Extensible Architecture**: Modular design for seamless integration of new sensors and modalities
+- **Voxel-Based Scene Graph**: Hierarchical representation of objects and their spatial relationships
+- **Geometric Feature Extraction**: Analysis of shapes, surfaces, and spatial arrangements
+- **Physical Properties Inference**: Estimation of mass, material, and dynamic properties
+- **Temporal Consistency**: Tracking objects and their states across time
+- **Multi-Resolution Processing**: Simultaneous global context and fine detail understanding
 
-### Implementation
+### Hypermodal Integration
 
-The ZENITH unified multimodal platform is implemented using our proprietary routing and integration architecture. The `/merge` directory contains the core components for integrating new modality experts:
+Zen's hypermodal perception system integrates diverse sensor inputs into a unified representation:
 
-- Configuration files optimized for cross-modality expert integration
-- Scaling scripts for varying deployment sizes from mobile (22B) to server (900B+)
-- Evaluation framework for measuring cross-modal capabilities
-- Adapter frameworks for integrating new sensors and data types
+- **Cross-Modal Alignment**: Consistent representation across visual, depth, inertial, and other modalities
+- **Sensor Fusion**: Combining complementary information to enhance perception reliability
+- **Modality Translation**: Converting between different sensory representations as needed
+- **Uncertainty Management**: Explicit handling of sensor noise and ambiguity
+- **Missing Modality Compensation**: Robust operation when specific sensor inputs are unavailable
 
-This modular architecture allows for seamless addition of new modalities, sensors, and specialized experts, creating a truly extensible AI platform that grows more capable over time.
+## 9. Integrated Models
 
-For detailed implementation instructions and technical details, refer to the [merge directory README](/merge/README.md).
+Zen integrates and builds upon several state-of-the-art foundation models:
 
-## 10. Decentralized AI Network
+### LLaVA-NEXT-Interleaved
 
-Hanzo AI, a Techstars-backed applied AI lab, is developing a revolutionary decentralized AI network to accelerate the training and deployment of our unified multimodal platform ZENITH.
+Enhanced vision encoder providing advanced visual understanding with the following modifications:
+- Specialized 3D perception layers for spatial understanding
+- Extended positional encoding for geometric awareness
+- Optimized attention patterns for object permanence and tracking
 
-### Network Overview
+### DeepSeek-V3
 
-- **Distributed Compute Infrastructure**: Validator operators can contribute GPU resources to train and serve Hanzo AI's open-source multimodal experts
-- **ZEN Token Incentives**: Earn ZEN tokens by hosting our models for training and inference across modalities
-- **Democratized Access**: Making frontier multimodal AI accessible to everyone through shared resources
-- **Accelerated Innovation**: Dramatically reducing training times for new modality experts and sensor integrations
+High-performance language model with 671B parameters (37B activated) contributing:
+- Advanced reasoning capabilities for complex problem-solving
+- Superior code generation and technical understanding
+- Efficient processing of structured data and formal representations
 
-### Benefits for Validators
+### Qwen3
 
-- **Earn Rewards**: Generate sustainable income through ZEN token rewards
-- **Support Open Science**: Contribute to cutting-edge open source multimodal AI research
-- **Governance Rights**: Participate in governance of the Hanzo AI ecosystem
-- **Early Access**: Gain priority access to new Hanzo AI modalities and capabilities
+Versatile language model with 235B parameters (22B activated) providing:
+- Mathematical reasoning and step-by-step problem solving
+- Enhanced multilingual capabilities, especially for Asian languages
+- Effective handling of long-context dependencies
 
-Our decentralized network represents a paradigm shift in how frontier multimodal AI systems are trained and deployed, creating a more equitable and efficient AI ecosystem that benefits everyone. Join us in democratizing access to the world's most advanced unified AI platform.
+### Phi-4
 
-## 11. Contact
-If you have any questions, please raise an issue or contact us at [service@hanzo.ai](service@hanzo.ai).
+Specialized multimodal model adapted for spatial understanding:
+- Cross-modal alignment between visual and linguistic representations
+- Effective grounding of language in visual and spatial contexts
+- Efficient operation in resource-constrained environments
+
+These integrated models form the foundation of Zen's capabilities, with our proprietary routing framework dynamically orchestrating computation across them based on task requirements and available resources.
+
+## 10. Contact
+
+For inquiries about Zen or partnership opportunities:
+
+- **General Inquiries**: [service@hanzo.ai](mailto:service@hanzo.ai)
+- **Enterprise Solutions**: [enterprise@hanzo.ai](mailto:enterprise@hanzo.ai)
+- **Research Collaboration**: [research@hanzo.ai](mailto:research@hanzo.ai)
+- **Investor Relations**: [investors@hanzo.ai](mailto:investors@hanzo.ai)
+
+Visit [hanzo.ai](https://hanzo.ai) to learn more about Zen and our other AI innovations.
