@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.hanzo.ai/schemas/gateway-routing.json",
+  "org_id": "org_enterprise_example",
+  "description": "Per-org custom AI Gateway routing configuration in platform.hanzo.ai",
+  "routes": [
+    {
+      "model": "qwen3.8-flash",
+      "target": "on-prem",
+      "endpoint": "http://evo.local:8730/v1",
+      "context_limit": 655360,
+      "policy": "allow_internal_only"
+    },
+    {
+      "model": "zen5-mini",
+      "target": "on-prem",
+      "endpoint": "http://10.64.1.50:8080/v1",
+      "context_limit": 32768,
+      "policy": "allow_internal_only"
+    },
+    {
+      "model": "zen5",
+      "target": "cloud",
+      "endpoint": "https://api.hanzo.ai/v1",
+      "fallback": "openrouter",
+      "policy": "standard"
+    }
+  ]
+}
