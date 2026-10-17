@@ -34,18 +34,22 @@ The API speaks the OpenAI wire format, so any OpenAI SDK works with
 `base_url="https://api.hanzo.ai/v1"`. `GET https://api.hanzo.ai/v1/models` lists every Zen model
 it serves.
 
-## Runnable Examples
+## Runnable Examples & Recipes
 
 See [`examples/`](examples/README.md) for full runnable scripts and clients:
 
+- **Cloud API (`https://api.hanzo.ai/v1`)**:
+  - Python (streaming + reasoning tokens): [`examples/cloud/client_cloud.py`](examples/cloud/client_cloud.py)
+  - TypeScript (native fetch): [`examples/cloud/client_cloud.ts`](examples/cloud/client_cloud.ts)
+  - Go (`net/http`): [`examples/cloud/client_cloud.go`](examples/cloud/client_cloud.go)
+  - Rust (`reqwest`): [`examples/cloud/client_cloud.rs`](examples/cloud/client_cloud.rs)
+  - cURL script: [`examples/cloud/client_cloud.sh`](examples/cloud/client_cloud.sh)
 - **Local Execution (Offline Weights)**:
   - Download weights: [`examples/local/download_weights.sh`](examples/local/download_weights.sh)
   - Run local inference server: [`examples/local/run_local_server.sh`](examples/local/run_local_server.sh)
   - Python local client: [`examples/local/client_local.py`](examples/local/client_local.py)
   - Pure Rust local client: [`examples/local/client_local.rs`](examples/local/client_local.rs)
-- **Cloud API**:
-  - Python client: [`examples/cloud/client_cloud.py`](examples/cloud/client_cloud.py)
-  - TypeScript client: [`examples/cloud/client_cloud.ts`](examples/cloud/client_cloud.ts)
-  - cURL script: [`examples/cloud/client_cloud.sh`](examples/cloud/client_cloud.sh)
+- **Production Rust Recipes**:
+  - Modular integration crate: [`recipes/`](recipes/) (`ZenChatRecipe`, `ZenStreamAccumulator` for reasoning tokens)
 - **AI Gateway & Custom Org Routing**:
   - Per-org on-prem routing: [`examples/gateway/custom_org_routing.json`](examples/gateway/custom_org_routing.json)
