@@ -4,6 +4,7 @@ Zen is Zen LM, the open model family from [Zoo Labs Foundation](https://zoo.ngo)
 non-profit. Open weights across language, code, vision, audio and retrieval: run them anywhere, or
 call them on the Hanzo API.
 
+- **Model Card:** [Zen 6 Architectural Specs & Benchmarks](MODEL_CARD.md) · [Hugging Face Hub](https://huggingface.co/zenlm)
 - Family, model cards and papers: [zenlm/zen](https://github.com/zenlm/zen) · [zenlm.org](https://zenlm.org)
 - Weights: [huggingface.co/zenlm](https://huggingface.co/zenlm)
 - Catalog and prices: [hanzo.ai/models/zen](https://hanzo.ai/models/zen)
